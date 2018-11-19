@@ -18,11 +18,9 @@
 						<img src="${staticexternal}/res/AdminLTE/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
 						<span class="hidden-xs"> <%=account%> </span><span class=" fa fa-angle-down"></span>
 					</a>
-					<ul class="dropdown-menu" style="height: 125px;">
+					<ul class="dropdown-menu" style="height: 45px;">
 						<li>
 							<ul id="user-dropdown-menu" class="menu">
-								<li menuId="userinfo"><a href="javascript:void(0);return false;"><i class="fa fa-user text-aqua"></i> <span>个人资料</span></a></li>
-								<li menuId="password"><a href="javascript:void(0);return false;"><i class="glyphicon glyphicon-lock text-aqua"></i><span>修改密码</span></a></li>
 								<li menuId="logout"><a href="javascript:void(0);return false;"><i class="glyphicon glyphicon-log-out text-red"></i><span>登出</span></a></li>
 							</ul>
 						</li>
