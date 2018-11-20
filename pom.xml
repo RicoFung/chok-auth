@@ -19,6 +19,19 @@
 	</properties>
 
 	<dependencies>
+		<!-- 使用logback-glef需排除spring-boot-starter-logging -->
+		<dependency>
+		  <groupId>org.springframework.boot</groupId>
+		  <artifactId>spring-boot-starter-web</artifactId>
+		  <exclusions>
+		      <exclusion>
+		          <groupId>org.springframework.boot</groupId>
+		          <artifactId>spring-boot-starter-logging</artifactId>
+		      </exclusion>
+		  </exclusions>
+		</dependency>
+		<!-- logback-glef graylog -->
+		<dependency><groupId>de.siegmar</groupId><artifactId>logback-gelf</artifactId></dependency>
 		<!-- spring-boot-security -->
 		<dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-security</artifactId></dependency>
 		<dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-properties-migrator</artifactId></dependency>
