@@ -3,7 +3,7 @@
   
 <mapper namespace="com.admin.entity.Authority">
 	<!-- 开启二级缓存 -->
-	<cache type="chok.util.mybatis.RedisCache"/>
+	<cache type="chok.redis.mybatis.RedisCache"/>
       <!-- 自动生成id策略 -->
     <insert id="add" parameterType="com.admin.entity.Authority" useGeneratedKeys="true" keyProperty="id">  
        	insert into tb_authority (pid,

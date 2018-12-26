@@ -52,6 +52,7 @@
 		<dependency><groupId>mysql</groupId><artifactId>mysql-connector-java</artifactId></dependency>
 		<!-- chok -->
 		<dependency><groupId>com.chok</groupId><artifactId>chok-devwork</artifactId></dependency>
+		<dependency><groupId>com.chok</groupId><artifactId>chok-redis</artifactId></dependency>
 	</dependencies>
 
 	<!-- maven 打包插件 -->

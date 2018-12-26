@@ -3,7 +3,7 @@
   
 <mapper namespace="com.admin.entity.RoleAuthority">
 	<!-- 开启二级缓存 -->
-	<cache type="chok.util.mybatis.RedisCache"/>
+	<cache type="chok.redis.mybatis.RedisCache"/>
       <!-- 自动生成id策略 -->
     <insert id="add" parameterType="com.admin.entity.RoleAuthority" useGeneratedKeys="true" keyProperty="id">  
        	insert into tb_role_authority(tc_role_id, tc_authority_id) values (#{m.tc_role_id}, #{m.tc_authority_id})  
