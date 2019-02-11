@@ -112,6 +112,17 @@
 			<staticField>os_version:${os.version}</staticField>
 		</layout>
 	</appender>
+ 
+ 	<!-- 异步方式发送日志 -->
+	<appender name="ASYNC GELF" class="ch.qos.logback.classic.AsyncAppender"><!--配置异步打印info信息-->
+        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 
+	    <discardingThreshold>0</discardingThreshold>
+        -->
+	    <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 
+	    <queueSize>256</queueSize>
+	    -->
+        <appender-ref ref="GELF" />
+    </appender>
 
 	<!-- logger -->
     <logger name="org.springframework" level="ERROR" />
@@ -122,7 +133,7 @@
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE_ALL"/>
         <appender-ref ref="FILE_ERROR"/>
-		<appender-ref ref="GELF"/>
+		<appender-ref ref="ASYNC GELF"/>
 	</root>
 
 </configuration>
