@@ -1,0 +1,35 @@
+version: '3'
+services:
+  db-mysql:
+    image: mysql:5.7
+    container_name: db-mysql
+    expose:
+      - "22"
+    ports:
+      - '3306:3306'
+    volumes:
+      - /usr/local/servers/docker/mysql/data:/var/lib/mysql
+    environment:
+      - TZ=Asia/Shanghai
+      - MYSQL_ROOT_PASSWORD=123456
+      - LANG=C.UTF-8
+    restart: always
+  app-chok-auth:
+    image: tomcat:8.5
+    container_name: app-chok-auth
+    depends_on:
+      - db-mysql
+    links:
+      - db-mysql
+    ports:
+      - "8080:8080"
+    expose:
+      - "22"
+    volumes:
+      - /usr/local/servers/docker/apps/chok-auth/logs:/usr/local/tomcat/logs
+      - /usr/local/servers/docker/apps/chok-auth/webapps:/usr/local/tomcat/webapps
+      - /usr/local/servers/docker/apps/static:/usr/local/tomcat/webapps/static
+    environment:
+      - TZ=Asia/Shanghai
+    command: ["catalina.sh", "run"]
+    restart: always
