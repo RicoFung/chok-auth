@@ -25,7 +25,7 @@ public class I18nConfig
 	{
 		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
 		messageSource.setBasename(basename);
-		messageSource.setDefaultEncoding(encoding);
+//		messageSource.setDefaultEncoding(encoding);
 		return messageSource;
 	}
 }
