@@ -26,6 +26,7 @@ services:
     expose:
       - "22"
     volumes:
+      - /usr/local/servers/docker/apps/chok-auth/conf/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
       - /usr/local/servers/docker/apps/chok-auth/logs:/usr/local/tomcat/logs
       - /usr/local/servers/docker/apps/chok-auth/webapps:/usr/local/tomcat/webapps
       - /usr/local/servers/docker/apps/static:/usr/local/tomcat/webapps/static
