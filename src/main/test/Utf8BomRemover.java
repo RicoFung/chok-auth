@@ -11,7 +11,10 @@ public class Utf8BomRemover extends DirectoryWalker
 	public static void main(String[] args) throws IOException
 	{
 		// 刪除指定文件夾下（含子文件夾）所有java文件的BOM，若構造器中參數為null則刪除所有文件頭部BOM
-		new Utf8BomRemover("java").start(new File("C:/Dev/projects/jee/epo-Erp/src"));
+//		new Utf8BomRemover("java").start(new File("C:/Dev/projects/jee/ipos/zt-service/manage/e3.middleware.manage.api/src/main/java/com/baison/e3/middleware/schedulejob/handle"));
+//		new Utf8BomRemover("java").start(new File("C:/Dev/projects/jee/ipos/zt-service/business_clothes/e3.middleware.business.clothes.impl/src/main/java/com/baison/e3/middleware/goods/impl/service"));
+		new Utf8BomRemover("java").start(new File("C:\\Dev\\projects\\jee\\ipos\\zt-service\\business_clothes\\e3.middleware.business.clothes.impl\\src\\main\\java\\com\\baison\\e3\\middleware\\goods\\impl\\service"));
+//		new Utf8BomRemover("java").start(new File("C:/Dev/projects/jee/epo-Erp/src"));
 	}
 
 	private String extension = null;

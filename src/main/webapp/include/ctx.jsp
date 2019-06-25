@@ -3,7 +3,7 @@
 <%@ page import="chok.util.PropertiesUtil" %>
 <%
 String ctx = request.getContextPath();
-String imagePath = PropertiesUtil.getValue("config/", "image.path");
+String imagePath = PropertiesUtil.getValue("image.path");
 request.setAttribute("ctx", ctx);
 request.setAttribute("staticexternal", ctx+"/staticexternal");
 request.setAttribute("staticinternal", ctx+"/staticinternal");

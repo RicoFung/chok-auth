@@ -30,8 +30,8 @@ import com.alibaba.druid.wall.WallFilter;
 @Configuration
 @EnableTransactionManagement
 // 多环境写法，需事先再application.properites中赋值spring.profiles.active=?
-@PropertySource(value = "classpath:config/datasource-${spring.profiles.active}.properties", ignoreResourceNotFound = true)
-//@PropertySource(value = "classpath:config/datasource.properties", ignoreResourceNotFound = true)
+@PropertySource(value = "classpath:datasource-${spring.profiles.active}.properties", ignoreResourceNotFound = true)
+//@PropertySource(value = "classpath:datasource.properties", ignoreResourceNotFound = true)
 public class DataSourceDefaultConfig 
 {
     @Value("${datasource.default.url}")
@@ -57,8 +57,8 @@ public class DataSourceDefaultConfig
     @Value("${mybatis.config-location}")
     private String mybatisConfigLocation;
  
-    @Bean(name = "dataSource")
-    public DataSource dataSource() throws SQLException 
+    @Bean(name = "dataSourceDefault")
+    public DataSource dataSourceDefault() throws SQLException 
     {
         DruidDataSource dataSource = new DruidDataSource();
         dataSource.setDriverClassName(driverClass);
@@ -75,39 +75,39 @@ public class DataSourceDefaultConfig
         dataSource.setFilters(filters);
         // 自定义 filters
         List<Filter> filters = new ArrayList<Filter>();
-        filters.add(wallFilter());
+        filters.add(wallFilterDefault());
         dataSource.setProxyFilters(filters);
         return dataSource;
     }
  
-    @Bean(name = "sqlSessionFactory")
-    @DependsOn({ "dataSource" })
-    public SqlSessionFactory sqlSessionFactory() throws Exception 
+    @Bean(name = "sqlSessionFactoryDefault")
+    @DependsOn({ "dataSourceDefault" })
+    public SqlSessionFactory sqlSessionFactoryDefault() throws Exception 
     {
         final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
-        sessionFactory.setDataSource(dataSource());
+        sessionFactory.setDataSource(dataSourceDefault());
         sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(mapperLocation));
         sessionFactory.setConfigLocation(new DefaultResourceLoader().getResource(mybatisConfigLocation));
         return sessionFactory.getObject();
     }
 
-	@Bean(name = "sqlSessionTemplate")
-	@DependsOn({ "sqlSessionFactory" })
+	@Bean(name = "sqlSessionTemplateDefault")
+	@DependsOn({ "sqlSessionFactoryDefault" })
 	public SqlSessionTemplate sqlSessionTemplate() throws Exception 
 	{
-		return new SqlSessionTemplate(sqlSessionFactory());
+		return new SqlSessionTemplate(sqlSessionFactoryDefault());
 	}
 	
-	@Bean(name = "transactionManager")
-	@DependsOn({ "dataSource" })
-	public DataSourceTransactionManager transactionManager() throws SQLException 
+	@Bean(name = "transactionManagerDefault")
+	@DependsOn({ "dataSourceDefault" })
+	public DataSourceTransactionManager transactionManagerDefault() throws SQLException 
 	{
-		return new DataSourceTransactionManager(dataSource());
+		return new DataSourceTransactionManager(dataSourceDefault());
 	}
 	
-	@Bean(name = "transactionInterceptor")
-	@DependsOn({ "transactionManager" })
-	public TransactionInterceptor transactionInterceptor() throws Throwable
+	@Bean(name = "transactionInterceptorDefault")
+	@DependsOn({ "transactionManagerDefault" })
+	public TransactionInterceptor transactionInterceptorDefault() throws Throwable
 	{
 		Properties prop = new Properties();
 		prop.setProperty("add*", "PROPAGATION_REQUIRED,-Exception");
@@ -116,35 +116,35 @@ public class DataSourceDefaultConfig
 		prop.setProperty("get*", "PROPAGATION_NEVER,readOnly");
 		prop.setProperty("query*", "PROPAGATION_NEVER,readOnly");
 		TransactionInterceptor ti = new TransactionInterceptor();
-		ti.setTransactionManager(transactionManager());
+		ti.setTransactionManager(transactionManagerDefault());
 		ti.setTransactionAttributes(prop);
 		return ti;
 	}
 
-	@Bean(name = "beanNameAutoProxyCreator")
-	public BeanNameAutoProxyCreator beanNameAutoProxyCreator() throws Throwable
+	@Bean(name = "beanNameAutoProxyCreatorDefault")
+	public BeanNameAutoProxyCreator beanNameAutoProxyCreatorDefault() throws Throwable
 	{
 		BeanNameAutoProxyCreator bpc = new BeanNameAutoProxyCreator();
 		bpc.setProxyTargetClass(true);
 		bpc.setBeanNames("*Service");
-		bpc.setInterceptorNames("transactionInterceptor");
+		bpc.setInterceptorNames("transactionInterceptorDefault");
 		return bpc;
 	}
 	
-	@Bean(name = "wallConfig")
-	public WallConfig wallConfig()
+	@Bean(name = "wallConfigDefault")
+	public WallConfig wallConfigDefault()
 	{
 		WallConfig wc = new WallConfig();
 		wc.setMultiStatementAllow(true); // 允许同时执行多条sql
 		return wc;
 	}
 	
-	@Bean(name = "wallFilter")
-	public WallFilter wallFilter()
+	@Bean(name = "wallFilterDefault")
+	public WallFilter wallFilterDefault()
 	{
 		WallFilter wf = new WallFilter();
 //		wf.setDbType("mysql"); // 指定dbType
-		wf.setConfig(wallConfig()); // 读取自定义wall-config
+		wf.setConfig(wallConfigDefault()); // 读取自定义wall-config
 		wf.setLogViolation(true); // 允许 对被认为是攻击的SQL进行LOG.error输出
 		wf.setThrowException(false); // 禁止 对被认为是攻击的SQL抛出SQLExcepton
 		return wf;
