@@ -1,0 +1,6 @@
+#单节点模式
+singleServerConfig:
+  address: "redis://10.12.204.37:7000"
+#  password: 54coder.
+#  address: "redis://120.79.57.16:6379"
+#  password: 54coder.
