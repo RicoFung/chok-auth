@@ -13,8 +13,8 @@ import com.Application;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class,
 properties = {
-//        "spring.redis.redisson.config=classpath:redisson-single.yml"/*,
-        "spring.redis.redisson.config=classpath:redisson-cluster.yml"/*,
+        "spring.redis.redisson.config=classpath:redisson-single.yml"/*,
+//        "spring.redis.redisson.config=classpath:redisson-cluster.yml"/*,
         "spring.redis.timeout=10000"*/
     })
 public class Test
@@ -28,10 +28,10 @@ public class Test
 	@org.junit.Test
 	public void testApp()
 	{
-//		redisson.getKeys().flushall();
+		redisson.getKeys().flushall();
 
-//		RMap<String, String> m = redisson.getMap("test1", StringCodec.INSTANCE);
-//		m.put("1", "12");
+		RMap<String, String> m = redisson.getMap("test1", StringCodec.INSTANCE);
+		m.put("1", "12");
 
 		BoundHashOperations<String, String, String> hash = template.boundHashOps("test1");
 		String t = hash.get("1");
